@@ -1,35 +1,60 @@
 <?php
 
+/**
+* Para efeito de brevidade este controller acessa dados direto
+* no DB usando o model Product. Para um exemplo melhor, veja
+* UserController
+*/
 class ProductController extends BaseController{
 
-	public function products()
+	public function index()
 	{
-		return 'list from ProductController';
+		$products = Product::orderBy('id', 'DESC')->get();
+		return Response::json($products, 200);
 	}
 
-	public function create()
+	public function store()
 	{
-		return 'create from ProductController';
+		$product = new Product();
+		$product->fill(Input::all());
+		$product->save();
+		return Response::json($product, 200);
 	}
 
-	public function save()
+	public function show($id)
 	{
-		return 'save from ProductController';
+		$product = Product::find($id);
+		if(is_null($product))
+		{
+			return Response::json(['erro' => 'Produto não encontrado'], 400);
+		} else {
+			return Response::json($product, 200);
+		}
 	}
 
-	public function get()
+	public function update($id)
 	{
-		return 'get from ProductController';
+		$product = Product::find($id);
+		if(is_null($product))
+		{
+			return Response::json(['erro' => 'Produto não encontrado'], 400);
+		} else {
+			$product->fill(Input::all());
+			$product->save();
+			return Response::json($product, 200);
+		}
 	}
 
-	public function update()
+	public function destroy($id)
 	{
-		return 'update from ProductController';
-	}
-
-	public function remove()
-	{
-		return 'remove from ProductController';
+		$product = Product::find($id);
+		if(is_null($product))
+		{
+			return Response::json(['erro' => 'Produto não encontrado'], 400);
+		} else {
+			$product->delete();
+			return Response::json(['response' => 'success'], 200);
+		}
 	}
 
 }

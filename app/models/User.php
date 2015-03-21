@@ -23,6 +23,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 		$paginator = $this;
 
+
 		if(!is_null($cities)){
 
 			$cities = explode(',',$cities);
@@ -43,8 +44,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$users = $paginator->getItems();
 
 		foreach ($users as $index => $user) {
-
+			$user = $user->toArray();
 			$user['gravatar'] = $this->get_gravatar($user['email']);
+			$user['created_at'] = date('d/m/Y H:i:s', strtotime($user['created_at']));
+			$user['updated_at'] = date('d/m/Y H:i:s', strtotime($user['updated_at']));
 			$users[$index] = $user;
 		}
 

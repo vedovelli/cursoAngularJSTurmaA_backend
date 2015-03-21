@@ -6,29 +6,21 @@ Route::get('logout', ['uses' => 'LoginController@logout']);
 
 Route::get('logged-in', ['uses' => 'LoginController@isLogged']);
 
-Route::group(['prefix' => 'api', 'before' => 'auth.basic'], function()
+Route::group(['prefix' => 'api'], function()
 {
 	/**
   * User
   */
   Route::resource('user', 'UserController');
 
+  Route::resource('product', 'ProductController');
+
   Route::get('cities', ['uses' => 'CityController@listCities']);
 
   Route::get('gravatar/{email}', ['uses' => 'UserController@gravatar']);
 
-	Route::group(['prefix' => 'product'], function()
-	{
-		Route::get('', ['uses' => 'ProductController@products']);
+  Route::post('upload', ['uses' => 'UploadController@receive']);
 
-		Route::get('{id}', ['uses' => 'ProductController@get']);
-
-		Route::post('', ['uses' => 'ProductController@create']);
-
-		Route::put('{id}', ['uses' => 'ProductController@update']);
-
-		Route::delete('{id}', ['uses' => 'ProductController@remove']);
-	});
 });
 
 Route::get('docs', function()

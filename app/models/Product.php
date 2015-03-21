@@ -1,5 +1,6 @@
 <?php
 
-class Product extends Eloquent {
-
+class Product extends Eloquent
+{
+  protected $fillable = ['name', 'country'];
 }
